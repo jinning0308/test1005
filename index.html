@@ -1,0 +1,127 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="研究所課程網站前端技術應用介紹與教學大綱">
+  <title>網站前端技術應用｜課程介紹</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, "Noto Sans TC", sans-serif;
+      color: #1f2937;
+      background: #f3f6fa;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; line-height: 1.7; }
+    .site-header { padding: 3rem 1.25rem; color: #fff; background: #173b69; }
+    .header-inner, main, .site-footer { width: min(100% - 2rem, 860px); margin-inline: auto; }
+    .eyebrow { margin: 0 0 .5rem; color: #c9dcf4; font-size: .9rem; letter-spacing: .08em; }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; }
+    .instructor { margin: .75rem 0 0; color: #e1eaf5; }
+    nav { background: #fff; border-bottom: 1px solid #dbe3ed; }
+    nav ul { display: flex; gap: 1.5rem; width: min(100% - 2rem, 860px); margin: 0 auto; padding: .8rem 0; list-style: none; }
+    nav a { color: #174477; text-decoration: none; }
+    nav a:hover, nav a:focus-visible { text-decoration: underline; }
+    main { width: min(100% - 2rem, 920px); margin-inline: auto; padding-block: 2rem 3rem; }
+    .card-container {
+      display: grid;
+      /* 欄位寬度最少 280px，空間足夠時平均分配並自動換行。 */
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem 0;
+    }
+    section { margin-top: 1.25rem; padding: 1.5rem; background: #fff; border: 1px solid #e1e7ef; border-radius: 14px; box-shadow: 0 5px 18px #173b690c; }
+    h2 { margin: 0 0 .75rem; color: #173b69; font-size: 1.35rem; }
+    section p { margin-bottom: 0; }
+    button { margin-top: 1rem; padding: .65rem 1rem; border: 0; border-radius: 8px; background: #2563eb; color: #fff; font: inherit; cursor: pointer; }
+    button:hover { background: #1d4ed8; }
+    button:focus-visible { outline: 3px solid #93c5fd; outline-offset: 3px; }
+    #syllabus[hidden] { display: none; }
+    #topics { margin: .5rem 0 0; padding-left: 1.5rem; }
+    #topics li + li { margin-top: .35rem; }
+    .site-footer { padding-block: 1.25rem 2rem; color: #58677a; font-size: .9rem; }
+    @media (max-width: 520px) {
+      .site-header { padding-block: 2.25rem; }
+      nav ul { gap: 1rem; flex-wrap: wrap; }
+      section { padding: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="eyebrow">研究所課程</p>
+      <h1 id="course-title">網站前端技術應用</h1>
+      <p class="instructor">授課教師：<span id="instructor">王佳盈</span></p>
+    </div>
+  </header>
+
+  <nav aria-label="頁面導覽">
+    <ul>
+      <li><a href="#goals">課程目標</a></li>
+      <li><a href="#syllabus">教學大綱</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="goals" aria-labelledby="goals-title">
+      <h2 id="goals-title">課程目標</h2>
+      <p id="course-goal">透過實作掌握現代前端開發的核心觀念，從 HTML 結構與 CSS 排版出發，進一步練習非同步操作與 LLM 串接，培養獨立規劃並完成互動式網站的能力。</p>
+    </section>
+
+    <section aria-labelledby="syllabus-title">
+      <h2 id="syllabus-title">教學大綱</h2>
+      <p>課程將循序介紹以下主題：</p>
+      <button id="toggle-btn" type="button" aria-controls="syllabus" aria-expanded="true">收合大綱</button>
+      <div id="syllabus">
+        <ul id="topics">
+          <li>HTML/CSS 基礎</li>
+          <li>排版技術</li>
+          <li>非同步操作</li>
+          <li>LLM 串接</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>網站前端技術應用｜授課教師：王佳盈</p>
+  </footer>
+
+  <script>
+    // 集中管理課程基本資訊。
+    const courseInfo = {
+      title: "網站前端技術應用",
+      instructor: "王佳盈",
+      goal: "透過實作掌握現代前端開發的核心觀念，從 HTML 結構與 CSS 排版出發，進一步練習非同步操作與 LLM 串接，培養獨立規劃並完成互動式網站的能力。",
+      topics: ["HTML/CSS 基礎", "排版技術", "非同步操作", "LLM 串接"]
+    };
+
+    // 由課程物件填入頁面內容。
+    document.querySelector("#course-title").textContent = courseInfo.title;
+    document.querySelector("#instructor").textContent = courseInfo.instructor;
+    document.querySelector("#course-goal").textContent = courseInfo.goal;
+    const topicsList = document.querySelector("#topics");
+    topicsList.replaceChildren(...courseInfo.topics.map((topic) => {
+      const item = document.createElement("li");
+      item.textContent = topic;
+      return item;
+    }));
+
+    // 切換大綱的顯示狀態，同步更新按鈕與無障礙狀態，並輸出至 Console。
+    const toggleBtn = document.querySelector("#toggle-btn");
+    const syllabus = document.querySelector("#syllabus");
+    toggleBtn.addEventListener("click", () => {
+      const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+      syllabus.hidden = isExpanded;
+      toggleBtn.setAttribute("aria-expanded", String(!isExpanded));
+      toggleBtn.textContent = isExpanded ? "展開大綱" : "收合大綱";
+      console.log(`教學大綱目前狀態：${isExpanded ? "已收合" : "已展開"}`);
+    });
+  </script>
+</body>
+</html>
+
+
